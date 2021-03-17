@@ -6,19 +6,21 @@ import unittest
 import sys
 import os
 import shutil
-import pandas
 from commandhandler import CommandHandler
 
 
 class TestClient(unittest.TestCase):
+    """[summary]
+
     
+    """
     def test_commands_output(self):
         """This test deals with testing whether correct description of 
         commands is returned by the server to client.
         """
-        commands = ["""register : To register as a new user ,
+        commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
-                    """login : To login , 
+                    """login : To login, 
                     command:login <username> <password>""",
                     """quit : To logout, 
                     command:quit\n""",
@@ -168,9 +170,12 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
 
-
-
 def cleanup():
+    """Cleans the directories created during all 
+    unittests
+
+    """
+    
     shutil.rmtree(os.path.join("Root/"))
     shutil.rmtree("AccessSession/")
 
