@@ -155,15 +155,9 @@ class TestClient(unittest.TestCase):
         actual = test_user.write_file("k.txt", "Hello Second World")
         self.assertEqual(expected, actual)
 
-    
 
 
     
-
-
-
-
-
 def step_completed(test):
     """
     This function deals with execution of all the

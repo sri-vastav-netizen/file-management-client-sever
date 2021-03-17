@@ -202,6 +202,25 @@ class CommandHandler():
         self.read_index[t_path] %= len(content) // self.char_count + 1
         return "\n" + "Read file from " + old_index + " to " + str(int(old_index)+self.char_count) + "are\n" + data
 
+    def list(self):
+
+        self.access_user_info()
+        if not self.is_login:
+            return "\nLogin to Continue!"
+        path = os.path.join(self.current_dir)
+        folders = []
+        try:
+            for file_name in os.listdir(path):
+               a = os.stat(os.path.join(path, file_name))
+               folders.append([file_name, str(a.st_size), str(time.ctime(a.st_ctime))])
+        except NotADirectoryError:
+            return "\nNot A Directory"
+        details = "\nFile | Size | Modified Date"
+        for folder in folders:
+            line = " | ".join([folder[0], folder[1], folder[2]]) + "\n"
+            details += "-----------------------\n" + line
+        return details
+
     
 
     
