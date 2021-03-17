@@ -1,71 +1,85 @@
-"""
-This file is the server program using async I/O
---------
-"""
 import asyncio
 import signal
 from commandhandler import CommandHandler
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-def request(commandhandler, message):
-    """[summary]
-
-    Parameters
-    ----------
-    commandhandler : Object
-        Create a commandhandler object specific to a client and hand it over to 
-        request module.
-    message : str
-        Message Received from the client and handled by the server.
-    """
-    command = message.rstrip("\n").lstrip(" ").rstrip(" ").split(" ")[0]
+def client_request(commandhandler, message):
+    '''
+    This function initiates the functions for given commands by user
+    '''
+    command = message.rstrip("\n").rstrip(" ").lstrip(" ").split(" ")[0]
     if command == "commands":
         return commandhandler.commands()
-
     if command == "register":
         if len(message.split(" ")) == 3:
             return commandhandler.register(message.split(" ")[1], message.split(" ")[2])
         return "Enter correct command"
 
+    if command == "login":
+        if len(message.split(" ")) == 3:
+            return commandhandler.login(message.split(" ")[1], message.split(" ")[2])
+        return "Enter Right Command"
+
+    if command == "quit":
+        return commandhandler.quit()
+
+    if command == "create_folder":
+        if len(message.split(" ")) == 2:
+            return commandhandler.create_folder(message.split(" ")[1])
+        return "Enter correct command: command --> create_folder <folder-name>"
+
+    if command == "change_folder":
+        if len(message.split(" ")) == 2:
+            return commandhandler.change_folder(message.split(" ")[1])
+        return "Enter correct command: command --> change_folder <folder-name>"
+
 async def handle_client(reader, writer):
-    """
-    This funtion handles the connection from the client,
+    """This funtion acknowledges the connection from the client,
     acknowledges the messages from the client
+    
 
     Parameters
     ----------
-    reader : Object
-        Reads the data from the client socket
-    writer : Object
-        Writes the data to the client socket.
+    reader : StreamReader
+        Reads data from the client socket
+    writer : StreamWriter
+        Writes data to the client socket
     """
+    
 
-    client_address = writer.get_extra_info("peername")
-    server_log = f"{client_address} is connected !!!"
-    print(server_log)
+    client_addr = writer.get_extra_info('peername')
+    message = f"{client_addr} is connected !!!!"
+    print(message)
     commandhandler = CommandHandler()
     while True:
         data = await reader.read(4096)
         message = data.decode().strip()
-        if message == "exit":
+        if message == 'exit':
             break
-        print(f"Received {message} from {client_address}")
-        writer.write(str(request(commandhandler, message).encode()))
-        await writer.drain()
 
-    print("Closing the connection !!!")
+        print(f"Received {message} from {client_addr}") 
+        writer.write(str(client_request(commandhandler, message)).encode())
+        await writer.drain()
+    print("Close the connection")
     writer.close()
 
-async def main():
-    """
-    Initiates the connection between the server and client.
-    """
 
-    server = await asyncio.start_server(request, "127.0.0.1", 8088)
+async def main():
+    """This function starts the connection between the server and client
+    """
+    
+    
+    server = await asyncio.start_server(
+        handle_client, '127.0.0.1', 8088)
+
+
     server_listening_ip = server.sockets[0].getsockname()
-    print(f"Serving on {server_listening_ip}")
+    print(f'Serving on {server_listening_ip}')
     async with server:
         await server.serve_forever()
 
+
 asyncio.run(main())
+        
+
