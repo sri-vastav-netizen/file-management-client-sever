@@ -9,7 +9,7 @@ import time
 import pandas
 
 
-class CommandHandler():
+class CommandHandler:
     """
     Handles all the commands received from the client.
     Acts as helper program to the server.
