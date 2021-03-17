@@ -121,9 +121,9 @@ class CommandHandler():
                 file.write(CommandHandler.CSV_HEADING)
                 user_ids = self.logged_in_users['username'].tolist()
                 passwords = self.logged_in_users['password'].tolist()
-                for i in range(len(user_ids)):
-                    if self.user_id != str(user_ids[i]):
-                        file.write(user_ids[i]+","+passwords[i])
+                for index, user_id in enumerate(user_ids):
+                    if self.user_id != str(user_id):
+                        file.write(user_id +","+passwords[index])
             self.is_login = False
             self.user_id = ""
             return "\nLogged Out"
