@@ -48,6 +48,8 @@ class TestClient(unittest.TestCase):
         expected = "\nSuccess! Registered test1"
         actual = test_user.register("test1", "17bfdsbgl")
         self.assertEqual(expected, actual)
+        test_user.quit()
+        
 
     def test_registration_with_weak_password(self):
         
@@ -59,6 +61,7 @@ class TestClient(unittest.TestCase):
         expected = "\n Password length should be more than 8 characters."
         actual = test_user.register("test2", "hdfgh")
         self.assertEqual(expected, actual)
+        test_user.quit()
 
     def test_login(self):
 
@@ -71,6 +74,8 @@ class TestClient(unittest.TestCase):
         expected = "Success test3 Logged into the system"
         actual = test_user.login("test3", "125354nnn3883")
         self.assertEqual(expected, actual)
+        test_user.quit()
+
 
     def test_login_with_wrong_password(self):
 
@@ -83,6 +88,7 @@ class TestClient(unittest.TestCase):
         expected = "\nSorry, The password you entered is wrong. Please Try Again"
         actual = test_user.login("test4", "jsdlgholgegl")
         self.assertEqual(expected, actual)
+        test_user.quit()
 
     def test_quit(self):
 
@@ -95,6 +101,8 @@ class TestClient(unittest.TestCase):
         expected = test_user.quit()
         actual = "\nLogged Out"
         self.assertEqual(expected, actual)
+        
+
 
     def test_create_folder(self):
 
@@ -107,7 +115,8 @@ class TestClient(unittest.TestCase):
         expected = test_user.create_folder("movies")
         actual = "\nSuccessfully created folder movies"
         self.assertEqual(expected, actual)
-        
+        test_user.quit()
+
     def test_create_already_existing_folder(self):
 
         """Tests if the user is attempting to create 
@@ -121,6 +130,7 @@ class TestClient(unittest.TestCase):
         expected = "\nThe folder already exists!"
         actual = test_user.create_folder("movies")
         self.assertEqual(expected, actual)
+        test_user.quit()
 
     def test_change_folder(self):
 
@@ -135,6 +145,7 @@ class TestClient(unittest.TestCase):
         expected = "\nSuccessfully Moved to folder Root/test8\movies"
         actual = test_user.change_folder("movies")
         self.assertEqual(expected, actual)
+        test_user.quit()
 
     def test_write_file(self):
 
@@ -154,10 +165,16 @@ class TestClient(unittest.TestCase):
         expected = "\nSuccess Written data to file k.txt successfully"
         actual = test_user.write_file("k.txt", "Hello Second World")
         self.assertEqual(expected, actual)
+        test_user.quit()
 
 
 
-    
+
+def cleanup():
+    shutil.rmtree(os.path.join("Root/"))
+    shutil.rmtree("AccessSession/")
+
+
 def step_completed(test):
     """
     This function deals with execution of all the
@@ -188,5 +205,5 @@ if __name__ == "__main__":
     if testing() is not True:
         print("\n\tThe tests did not pass,")
         sys.exit(1)
-
+    cleanup()
     sys.exit(0)

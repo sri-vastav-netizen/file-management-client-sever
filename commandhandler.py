@@ -73,7 +73,7 @@ class CommandHandler():
 
 
     def register(self, user_id, password):
-
+        
         self.access_user_info()
         if user_id in self.registered_users['username'].tolist():
             return "\nUsername not available"
