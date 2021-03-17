@@ -363,8 +363,8 @@ class CommandHandler:
         folders = []
         try:
             for file_name in os.listdir(path):
-               a = os.stat(os.path.join(path, file_name))
-               folders.append([file_name, str(a.st_size), str(time.ctime(a.st_ctime))])
+               file_stats = os.stat(os.path.join(path, file_name))
+               folders.append([file_name, str(file_stats.st_size), str(time.ctime(file_stats.st_ctime))])
         except NotADirectoryError:
             return "\nNot A Directory"
         details = "\nFile | Size | Modified Date"
