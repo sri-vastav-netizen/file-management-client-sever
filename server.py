@@ -60,7 +60,7 @@ async def handle_client(reader, writer):
     writer : StreamWriter
         Writes data to the client socket
     """
-    
+
     client_addr = writer.get_extra_info('peername')
     message = f"{client_addr} is connected !!!!"
     print(message)
@@ -71,7 +71,7 @@ async def handle_client(reader, writer):
         if message == 'exit':
             break
 
-        print(f"Received {message} from {client_addr}") 
+        print(f"Received {message} from {client_addr}")
         writer.write(str(client_request(commandhandler, message)).encode())
         await writer.drain()
     print("Close the connection")
@@ -81,7 +81,6 @@ async def handle_client(reader, writer):
 async def main():
     """This function starts the connection between the server and client
     """
-    
     
     server = await asyncio.start_server(handle_client, '127.0.0.1', 8088)
     server_listening_ip = server.sockets[0].getsockname()
