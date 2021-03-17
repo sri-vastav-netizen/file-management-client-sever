@@ -3,11 +3,8 @@ This program handles the commands
 passed by the client to server.
 """
 
-import pathlib
 import os
 import time
-from shutil import rmtree
-import csv
 import pandas
 
 
