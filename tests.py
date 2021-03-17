@@ -72,6 +72,19 @@ class TestClient(unittest.TestCase):
         actual = test_user.login("test3", "125354nnn3883")
         self.assertEqual(expected, actual)
 
+    def test_login_with_wrong_password(self):
+
+        """This test deals with testing when a user attempts to login with wrong 
+        password the system throws an error 'Wrong Password'
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test4", "jsdlghosd")
+        expected = "\nSorry, The password you entered is wrong. Please Try Again"
+        actual = test_user.login("test4", "jsdlgholgegl")
+        self.assertEqual(expected, actual)
+
+        
 
 
 def step_completed(test):
