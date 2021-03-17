@@ -18,7 +18,7 @@ class TestClient(unittest.TestCase):
     """
 
     def test_commands_output(self):
-        """This test deals with testing whether correct description of 
+        """This test deals with testing whether correct description of
         commands is returned by the server to client.
         """
         commands = ["""register : To register as a new user,
@@ -33,9 +33,9 @@ class TestClient(unittest.TestCase):
                     command:list\n""",
                     """read_file : To read content from the file,
                     command:read_file <name>\n""",
-                    """write_file : To write content into the file, 
+                    """write_file : To write content into the file,
                     command:write_file <name> <content>\n""",
-                    """create_folder : To create new folder, 
+                    """create_folder : To create new folder,
                     command:create_folder <name>\n"""
                 ]
         expected = "".join(commands)
