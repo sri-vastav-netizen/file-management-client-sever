@@ -4,9 +4,9 @@ the server-client application
 """
 import unittest
 import sys
-import pandas
 import os
 import shutil
+import pandas
 from commandhandler import CommandHandler
 
 
@@ -25,9 +25,7 @@ class TestClient(unittest.TestCase):
                  "write_file : To write content into the file, command:write_file <name> <content>\n",
                  "create_folder : To create new folder, command:create_folder <name>\n"
                 ]
-        expected = ""
-        for command in commands:
-            expected += command
+        expected = "".join(commands)
 
         test_user = CommandHandler()
         actual = test_user.commands()
