@@ -17,7 +17,7 @@ class CommandHandler():
     Returns
     -------
     Object
-        CommandHandler Object    
+        CommandHandler Object  
     """
 
     ROOT_DIR = "Root/"
@@ -26,7 +26,9 @@ class CommandHandler():
     CSV_HEADING = "username,password\n"
 
     def __init__(self):
-
+        """
+        TODO
+        """
         self.user_id = ""
         self.is_login = None
         self.registered_users = None
@@ -36,27 +38,31 @@ class CommandHandler():
         self.char_count = 100
 
     def commands(self):
+        
         commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
-                    """login : To login, 
+                    """login : To login
                     command:login <username> <password>""",
-                    """quit : To logout, 
+                    """quit : To logout,
                     command:quit\n""",
                     """change_folder : To change the current path, 
                     command:change_folder <name>\n""",
-                    """list : Lists all files in the current path, 
+                    """list : Lists all files in the current path,
                     command:list\n""",
-                    """read_file : To read content from the file, 
+                    """read_file : To read content from the file,
                     command:read_file <name>\n""",
                     """write_file : To write content into the file, 
                     command:write_file <name> <content>\n""",
-                    """create_folder : To create new folder, 
+                    """create_folder : To create new folder,
                     command:create_folder <name>\n"""
                 ]
 
         return "".join(commands)
 
     def access_user_info(self):
+        """
+        TODO
+        """
         if not os.path.exists("AccessSession"):
             os.mkdir("AccessSession")
 
@@ -71,7 +77,25 @@ class CommandHandler():
 
 
     def register(self, user_id, password):
-        
+        """
+        TODO
+
+        Parameters
+        ----------
+        user_id : str
+            Username of the client  
+        password : str
+            Password set by the client
+
+        Returns
+        -------
+        str
+            On Success:
+                Success! Registered <username>
+            On Failure:
+                Password length should be more than 8 characters 
+                Username not available
+        """
         self.access_user_info()
         if user_id in self.registered_users['username'].tolist():
             return "\nUsername not available"
@@ -86,14 +110,48 @@ class CommandHandler():
         return "\nSuccess! Registered " + self.user_id
 
     def login(self, user_id, password):
+        """
+        TODO
+
+        Parameters
+        ----------
+        user_id : str
+            Username of the logged in user
+        password : str
+            Password of the logged in user
+
+        Returns
+        -------
+        str
+            On Success:
+                Case 1: First Login
+                -------------------
+                Success <username> Logged into the system
+                Case 2: Logged from another system
+                ----------------------------------
+                You logged through another system
+                Case 3: Re-logged
+                -----------------
+                Already logged in 
+            On Failure:
+                Case 1: If not registered
+                --------------------------
+                You haven't registered! Please register--> 
+                command: register <username> <password>
+                Case 2: If Password is wrong
+                ----------------------------
+                Sorry, The password you entered is wrong. Please Try Again
+        """
 
         self.access_user_info()
         if self.is_login:
-            return "\nAlready Logged In"
+            return "\nAlready logged in"
         if user_id not in self.registered_users['username'].tolist():
            # print (self.registered_users)
-            return "\nYou haven't registered! Please register--> command: register <username> <password>"
-        if password not in self.registered_users['password'].tolist() and user_id in self.registered_users['username'].tolist():
+            return """\nYou haven't registered! Please register--> 
+                    command: register <username> <password>"""
+        if password not in self.registered_users['password'].tolist() 
+                    and user_id in self.registered_users['username'].tolist():
             return "\nSorry, The password you entered is wrong. Please Try Again"
         if user_id in self.logged_in_users['username'].tolist():
             self.is_login = True
@@ -110,7 +168,18 @@ class CommandHandler():
 
     def quit(self):
         """
-        This function is used to 'Log Out' the user from the current login session.
+        TODO
+
+        Returns
+        -------
+        str
+            On Success:
+                Case 1: Safe Logout
+                -------------------
+                Logged Out
+                Case 2: Forced Logout
+                ---------------------
+                Forced Logged Out through Keyboard Interruption (CTRL-C)   
         """
         
         try:
@@ -129,6 +198,22 @@ class CommandHandler():
             return "\nForced Logged Out through Keyboard Interruption (CTRL-C)"
 
     def create_folder(self, folder):
+        """
+        TODO
+
+        Parameters
+        ----------
+        folder : str
+            Folder Name
+
+        Returns
+        -------
+        str
+            On Success:
+                Successfully created folder <folder-name>
+            On Failure:
+                The folder already exists
+        """
 
         if not self.is_login:
             return "\nLogin to continue"
@@ -141,6 +226,29 @@ class CommandHandler():
         return "\nSuccessfully created folder " + folder
 
     def change_folder(self, folder):
+        """
+        TODO
+
+        Parameters
+        ----------
+        folder : str
+            Folder name
+
+        Returns
+        -------
+        str
+            On Success:
+                Successfully moved to folder <current-folder>
+            On Failure:
+                Case 1: If the user attempts to move parent 
+                folder of "Root/<username>" folder
+                -------------------------------------------
+                Cannot Move Back from Root/<username> folder
+                Case 2: If the user attempts to move to 
+                non-existing folder
+                -------------------------------------------
+                No such folder exists
+        """
 
         if not self.is_login:
             return "\nLogin to continue"
@@ -160,6 +268,27 @@ class CommandHandler():
 
     
     def write_file(self, filename, data):
+        """
+        TODO
+
+        Parameters
+        ----------
+        filename : str
+            Name of the name to which content to be written
+        data : str
+            Content to be written to a file
+
+        Returns
+        -------
+        str
+            On Success:
+              Case 1: On Creating new file and writing content
+              ------------------------------------------------
+              Created and Written data to file <filename> successfully
+              Case 2: Writing content to already existing file
+              ------------------------------------------------
+              Success Written data to file <filename> successfully
+        """
 
         self.access_user_info()
         if not self.is_login:
@@ -182,6 +311,24 @@ class CommandHandler():
         return "\nCreated and written data to file " + filename + " successfully"
 
     def read_file(self, filename):
+        """
+        TODO
+
+        Parameters
+        ----------
+        filename : str
+            Name of the file to be read
+
+        Returns
+        -------
+        str
+            On Success:
+                Read file from <old_index> to <current_index> are <content>
+            On Failure:
+                If file does not exists:
+                ------------------------
+                Return No Such file <filename> exists!
+        """
         self.access_user_info()
         if not self.is_login:
             return "\nLogin to Continue"
@@ -201,6 +348,15 @@ class CommandHandler():
         return "\n" + "Read file from " + old_index + " to " + str(int(old_index)+self.char_count) + "are\n" + data
 
     def list(self):
+        """
+        TODO
+
+        Returns
+        -------
+        str
+            File   | Size           | Modified Date
+            <file> | <size_of_file> | <time_file_modified>
+        """
 
         self.access_user_info()
         if not self.is_login:
