@@ -1,7 +1,8 @@
 """
-This program deals with the testing of
-the server-client application
+This program defines the unit tests for testing the
+modules of the file server application.
 """
+
 import unittest
 import sys
 import os
@@ -10,10 +11,12 @@ from commandhandler import CommandHandler
 
 
 class TestClient(unittest.TestCase):
-    """[summary]
-
-    
     """
+    This class defines the unit tests required 
+    for the testing the features provided by 
+    file server application.
+    """
+
     def test_commands_output(self):
         """This test deals with testing whether correct description of 
         commands is returned by the server to client.
@@ -42,7 +45,6 @@ class TestClient(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_registration(self):
-
         """This test deals with testing whether register command is working or not!
         """
 
@@ -54,7 +56,6 @@ class TestClient(unittest.TestCase):
         
 
     def test_registration_with_weak_password(self):
-        
         """This test checks the registretion method sends information 
         if the user attempts to register with a weak password
         """
@@ -66,7 +67,6 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
     def test_login(self):
-
         """This test deals with testing whether a user after a proper registeration is 
         able to login into the system or not!
         """
@@ -80,7 +80,6 @@ class TestClient(unittest.TestCase):
 
 
     def test_login_with_wrong_password(self):
-
         """This test deals with testing when a user attempts to login with wrong 
         password the system throws an error 'Wrong Password'
         """
@@ -93,7 +92,6 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
     def test_quit(self):
-
         """Tests if the user able to safely quit from the system.
         """
 
@@ -107,7 +105,6 @@ class TestClient(unittest.TestCase):
 
 
     def test_create_folder(self):
-
         """Tests if the user able to create a folder
         """
 
@@ -120,7 +117,6 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
     def test_create_already_existing_folder(self):
-
         """Tests if the user is attempting to create 
         a folder which is already existing.
         """
@@ -135,7 +131,6 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
     def test_change_folder(self):
-
         """Tests if the user is attempting to move the location 
         of the directory tree.
         """
@@ -150,7 +145,6 @@ class TestClient(unittest.TestCase):
         test_user.quit()
 
     def test_write_file(self):
-
         """Tests if the user is attempting to create and 
         write content into a file
         """
@@ -173,7 +167,6 @@ class TestClient(unittest.TestCase):
 def cleanup():
     """Cleans the directories created during all 
     unittests
-
     """
 
     shutil.rmtree(os.path.join("Root/"))
@@ -188,14 +181,11 @@ def step_completed(test):
 
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
-
     suite.addTests(loader.loadTestsFromTestCase(test))
     runtest = unittest.TextTestRunner(verbosity=2)
     result = runtest.run(suite)
-
     if result.skipped:
         return False
-
     return result.wasSuccessful()
 
 
@@ -211,6 +201,5 @@ if __name__ == "__main__":
         print("\nTests failed!")
         cleanup()
         sys.exit(1)
-
     cleanup()
     sys.exit()
