@@ -84,8 +84,6 @@ class CommandHandler():
         if not os.path.exists(self.current_dir):
             os.mkdir(self.current_dir)
         os.mkdir(os.path.join(self.current_dir, user_id))
-
-        self.current_dir = self.current_dir + user_id
         self.user_id = user_id
         return "\nSuccess! Registered " + self.user_id
 
@@ -132,7 +130,22 @@ class CommandHandler():
         except KeyError:
             return "\nForced Logged Out through Keyboard Interruption (CTRL-C)"
 
+    def create_folder(self, folder):
+
+        if not self.is_login:
+            return "\nLogin to continue"
+        self.access_user_info()
+        path = os.path.join(self.current_dir)
+        try:
+            os.mkdir(os.path.join(path, folder))
+        except FileExistsError:
+            return "\nThe folder already exists!"
+        return "\nSuccessfully created folder " + folder
+
     
+
+
+
 
     
 

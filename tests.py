@@ -95,7 +95,35 @@ class TestClient(unittest.TestCase):
         expected = test_user.quit()
         actual = "\nLogged Out"
         self.assertEqual(expected, actual)
+
+    def test_create_folder(self):
+
+        """Tests if the user able to create a folder
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test6", "jgldaoghgealg8014")
+        test_user.login("test6", "jgldaoghgealg8014")
+        expected = test_user.create_folder("movies")
+        actual = "\nSuccessfully created folder movies"
+        self.assertEqual(expected, actual)
         
+    def test_create_already_existing_folder(self):
+
+        """Tests if the user is attempting to create 
+        a folder which is already existing.
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test7", "lognslb402193570")
+        test_user.login("test7", "lognslb402193570")
+        test_user.create_folder("movies")
+        expected = "\nThe folder already exists!"
+        actual = test_user.create_folder("movies")
+        self.assertEqual(expected, actual)
+
+    
+
 
 
 
