@@ -1,3 +1,6 @@
+"""[module-docstring]
+"""
+
 import asyncio
 import signal
 from commandhandler import CommandHandler
@@ -5,9 +8,9 @@ from commandhandler import CommandHandler
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 def client_request(commandhandler, message):
-    '''
+    """
     This function initiates the functions for given commands by user
-    '''
+    """
     command = message.rstrip("\n").rstrip(" ").lstrip(" ").split(" ")[0]
     if command == "commands":
         return commandhandler.commands()
@@ -37,7 +40,7 @@ def client_request(commandhandler, message):
     if command == "write_file":
         if len(message.split(" ")) >= 2:
             return commandhandler.write_file(message.split(" ")[1], " ".join(message.split(" ")[2:]))
-        return "Enter correct command: command -> write_file <file_name> <content_to_write>"
+        return "Enter correct command: command -> write_file <file_name> <content>"
 
     if command == "read_file":
         if len(message.split(" ")) >= 2:
@@ -50,8 +53,6 @@ def client_request(commandhandler, message):
 async def handle_client(reader, writer):
     """This funtion acknowledges the connection from the client,
     acknowledges the messages from the client
-    
-
     Parameters
     ----------
     reader : StreamReader
@@ -60,7 +61,6 @@ async def handle_client(reader, writer):
         Writes data to the client socket
     """
     
-
     client_addr = writer.get_extra_info('peername')
     message = f"{client_addr} is connected !!!!"
     print(message)
@@ -83,10 +83,7 @@ async def main():
     """
     
     
-    server = await asyncio.start_server(
-        handle_client, '127.0.0.1', 8088)
-
-
+    server = await asyncio.start_server(handle_client, '127.0.0.1', 8088)
     server_listening_ip = server.sockets[0].getsockname()
     print(f'Serving on {server_listening_ip}')
     async with server:
@@ -94,5 +91,3 @@ async def main():
 
 
 asyncio.run(main())
-        
-
