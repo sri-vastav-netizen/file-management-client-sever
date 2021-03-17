@@ -149,8 +149,7 @@ class CommandHandler:
         if user_id not in self.registered_users['username'].tolist():
            # print (self.registered_users)
             return "\nYou haven't registered! command: register <username> <password>"
-        if password not in self.registered_users['password'].tolist() 
-                    and user_id in self.registered_users['username'].tolist():
+        if password not in self.registered_users['password'].tolist() and user_id in self.registered_users['username'].tolist():
             return "\nSorry, The password you entered is wrong. Please Try Again"
         if user_id in self.logged_in_users['username'].tolist():
             self.is_login = True
