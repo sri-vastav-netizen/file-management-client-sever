@@ -122,6 +122,20 @@ class TestClient(unittest.TestCase):
         actual = test_user.create_folder("movies")
         self.assertEqual(expected, actual)
 
+    def test_change_folder(self):
+
+        """Tests if the user is attempting to move the location 
+        of the directory tree.
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test8", "rgglherglse9421-4")
+        test_user.login("test8", "rgglherglse9421-4")
+        test_user.create_folder("movies")
+        expected = "\nSuccessfully Moved to folder Root/test8\movies"
+        actual = test_user.change_folder("movies")
+        self.assertEqual(expected, actual)
+
     
 
 

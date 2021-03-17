@@ -142,6 +142,24 @@ class CommandHandler():
             return "\nThe folder already exists!"
         return "\nSuccessfully created folder " + folder
 
+    def change_folder(self, folder):
+
+        if not self.is_login:
+            return "\nLogin to continue"
+
+        self.access_user_info()
+        if folder == ".." and self.current_dir != CommandHandler.ROOT_DIR + self.user_id:
+            self.current_dir = os.path.dirname(os.path.join(self.current_dir))
+            return "\nSuccessfully moved to folder " + self.current_dir
+        
+        elif folder == ".." and self.current_dir == CommandHandler.ROOT_DIR + self.user_id:
+            return "\nCannot Move Back from Root/" + self.user_id + " folder"
+
+        if folder in os.listdir(self.current_dir):
+            self.current_dir = os.path.join(self.current_dir, folder)
+            return "\nSuccessfully Moved to folder " + self.current_dir
+        return "\n No such folder exists"
+
     
 
 
