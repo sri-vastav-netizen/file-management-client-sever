@@ -175,7 +175,7 @@ def cleanup():
     unittests
 
     """
-    
+
     shutil.rmtree(os.path.join("Root/"))
     shutil.rmtree("AccessSession/")
 
@@ -207,8 +207,12 @@ def testing():
     return step_completed(TestClient)
 
 if __name__ == "__main__":
-    if testing() is not True:
-        print("\n\tThe tests did not pass,")
+    try:
+        if testing():
+            cleanup()
+    except AssertionError:
+        print("\n\tThe tests did not pass!")
+        cleanup()
         sys.exit(1)
-    cleanup()
-    sys.exit(0)
+
+    sys.exit()

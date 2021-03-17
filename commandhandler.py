@@ -3,8 +3,11 @@ This program handles the commands
 passed by the client to server.
 """
 
+import pathlib
 import os
 import time
+from shutil import rmtree
+import csv
 import pandas
 
 
@@ -35,9 +38,9 @@ class CommandHandler():
         self.char_count = 100
 
     def commands(self):
-        commands = ["""register : To register as a new user ,
+        commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
-                    """login : To login , 
+                    """login : To login, 
                     command:login <username> <password>""",
                     """quit : To logout, 
                     command:quit\n""",
