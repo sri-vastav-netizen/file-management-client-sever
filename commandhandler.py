@@ -89,4 +89,30 @@ class CommandHandler():
         self.user_id = user_id
         return "\nSuccess! Registered " + self.user_id
 
+    def login(self, user_id, password):
+
+        self.access_user_info()
+        if self.is_login:
+            return "\nAlready Logged In"
+        if user_id not in self.registered_users['username'].tolist():
+           # print (self.registered_users)
+            return "\nYou haven't registered! Please register--> command: register <username> <password>"
+        if password not in self.registered_users['password'].tolist() and user_id in self.registered_users['username'].tolist():
+            return "\nSorry, The password you entered is wrong. Please Try Again"
+        if user_id in self.logged_in_users['username'].tolist():
+            self.is_login = True
+            self.user_id = user_id
+            self.current_dir = self.current_dir + self.user_id
+            return "\nYou logged through another system"
+        
+        self.is_login = True
+        self.user_id = user_id
+        self.current_dir = self.current_dir + self.user_id
+        with open(CommandHandler.LOGGED_IN_USERS_CSV_FILE, "a") as writer:
+            writer.write(user_id + "," + password + "\n")
+        return "Success " + self.user_id + " Logged into the system"
+
+
+
+
     

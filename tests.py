@@ -49,6 +49,29 @@ class TestClient(unittest.TestCase):
         actual = test_user.register("test1", "17bfdsbgl")
         self.assertEqual(expected, actual)
 
+    def test_registration_with_weak_password(self):
+        
+        """This test checks the registretion method sends information 
+        if the user attempts to register with a weak password
+        """
+
+        test_user = CommandHandler()
+        expected = "\n Password length should be more than 8 characters."
+        actual = test_user.register("test2", "hdfgh")
+        self.assertEqual(expected, actual)
+
+    def test_login(self):
+
+        """This test deals with testing whether a user after a proper registeration is 
+        able to login into the system or not!
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test3", "125354nnn3883")
+        expected = "Success test3 Logged into the system"
+        actual = test_user.login("test3", "125354nnn3883")
+        self.assertEqual(expected, actual)
+
 
 
 def step_completed(test):
