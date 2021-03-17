@@ -5,12 +5,22 @@ passed by the client to server.
 
 import pathlib
 import os
-import pandas
 import time
 from shutil import rmtree
 import csv
+import pandas
+
 
 class CommandHandler():
+    """
+    Handles all the commands received from the client.
+    Acts as helper program to the server.
+
+    Returns
+    -------
+    Object
+        
+    """
 
     ROOT_DIR = "Root/"
     def __init__(self):
@@ -37,9 +47,7 @@ class CommandHandler():
                  "create_folder : To create new folder, command:create_folder <name>\n"
                 ]
 
-        desc = ""
-        for command in commands:
-            desc += command
-        return desc
+        return "".join(commands)
+
 
     
