@@ -114,8 +114,8 @@ class TestClient(unittest.TestCase):
         test_user = CommandHandler()
         test_user.register("test6", "jgldaoghgealg8014")
         test_user.login("test6", "jgldaoghgealg8014")
-        expected = test_user.create_folder("movies")
-        actual = "\nSuccessfully created folder movies"
+        expected = "\nSuccessfully created folder movies"
+        actual = test_user.create_folder("movies") 
         self.assertEqual(expected, actual)
         test_user.quit()
 
@@ -207,12 +207,10 @@ def testing():
     return step_completed(TestClient)
 
 if __name__ == "__main__":
-    try:
-        if testing():
-            cleanup()
-    except AssertionError:
-        print("\n\tThe tests did not pass!")
+    if not testing():
+        print("\nTests failed!")
         cleanup()
         sys.exit(1)
 
+    cleanup()
     sys.exit()
