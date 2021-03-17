@@ -84,7 +84,20 @@ class TestClient(unittest.TestCase):
         actual = test_user.login("test4", "jsdlgholgegl")
         self.assertEqual(expected, actual)
 
+    def test_quit(self):
+
+        """Tests if the user able to safely quit from the system.
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test5", "bdghkga")
+        test_user.login("test5", "bdghkga")
+        expected = test_user.quit()
+        actual = "\nLogged Out"
+        self.assertEqual(expected, actual)
         
+
+
 
 
 def step_completed(test):

@@ -112,6 +112,30 @@ class CommandHandler():
             writer.write(user_id + "," + password + "\n")
         return "Success " + self.user_id + " Logged into the system"
 
+    def quit(self):
+        """
+        This function is used to 'Log Out' the user from the current login session.
+        """
+        
+        try:
+            self.access_user_info()
+            with open(CommandHandler.LOGGED_IN_USERS_CSV_FILE, "w") as file:
+                file.write(CommandHandler.CSV_HEADING)
+                user_ids = self.logged_in_users['username'].tolist()
+                passwords = self.logged_in_users['password'].tolist()
+                for i in range(len(user_ids)):
+                    if self.user_id != str(user_ids[i]):
+                        file.write(user_ids[i]+","+passwords[i])
+            self.is_login = False
+            self.user_id = ""
+            return "\nLogged Out"
+        except KeyError:
+            return "\nForced Logged Out through Keyboard Interruption (CTRL-C)"
+
+    
+
+    
+
 
 
 
