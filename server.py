@@ -34,6 +34,19 @@ def client_request(commandhandler, message):
             return commandhandler.change_folder(message.split(" ")[1])
         return "Enter correct command: command --> change_folder <folder-name>"
 
+    if command == "write_file":
+        if len(message.split(" ")) >= 2:
+            return commandhandler.write_file(message.split(" ")[1], " ".join(message.split(" ")[2:]))
+        return "Enter correct command: command -> write_file <file_name> <content_to_write>"
+
+    if command == "read_file":
+        if len(message.split(" ")) >= 2:
+            return commandhandler.read_file(message.split(" ")[1])
+        return "Enter correct command: command -> read_file <file_name>"
+
+    if command == "list":
+        return commandhandler.list()
+
 async def handle_client(reader, writer):
     """This funtion acknowledges the connection from the client,
     acknowledges the messages from the client

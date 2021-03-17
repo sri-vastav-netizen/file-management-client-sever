@@ -136,7 +136,27 @@ class TestClient(unittest.TestCase):
         actual = test_user.change_folder("movies")
         self.assertEqual(expected, actual)
 
+    def test_write_file(self):
+
+        """Tests if the user is attempting to create and 
+        write content into a file
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test9", "nlndgsvns")
+        test_user.login("test9", "nlndgsvns")
         
+        expected = "\nCreated and written data to file k.txt successfully"
+        actual = test_user.write_file("k.txt", "Hello World")
+        self.assertEqual(expected, actual)
+        # Check also if the user able to append new data to the 
+        # existing file
+        expected = "\nSuccess Written data to file k.txt successfully"
+        actual = test_user.write_file("k.txt", "Hello Second World")
+        self.assertEqual(expected, actual)
+
+    
+
 
     
 

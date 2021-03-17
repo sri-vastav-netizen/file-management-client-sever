@@ -161,6 +161,50 @@ class CommandHandler():
         return "\n No such folder exists"
 
     
+    def write_file(self, filename, data):
+
+        self.access_user_info()
+        if not self.is_login:
+            return "\nLogin to Continue"
+        t_file = []
+        for file in os.listdir(os.path.join(self.current_dir)):
+            if os.path.isfile(os.path.join(self.current_dir, file)):
+                t_file.append(file)
+            
+        writeable_data = ""
+        path = os.path.join(self.current_dir, filename)
+        for i in data:
+            writeable_data += i
+        if filename in t_file:
+            with open(path, "a+") as file:
+                file.write(writeable_data)
+            return "\nSuccess Written data to file " + filename + " successfully"
+        with open(path, "w+") as file:
+            file.write(writeable_data)
+        return "\nCreated and written data to file " + filename + " successfully"
+
+    def read_file(self, filename):
+        self.access_user_info()
+        if not self.is_login:
+            return "\nLogin to Continue"
+        try:
+            t_path = os.path.join(self.current_dir, filename)
+        except FileExistsError:
+            "\nReturn No Such file " + filename + "exists!"
+        if t_path not in list(self.read_index.keys()):
+            self.read_index[t_path] = 0
+        with open(t_path, "r") as file:
+            content = file.read()
+        old_index = str(self.read_index[t_path]*self.char_count)
+        index = self.read_index[t_path]
+        data = content[index*self.char_count:(index+1)*self.char_count]
+        self.read_index[t_path] += 1
+        self.read_index[t_path] %= len(content) // self.char_count + 1
+        return "\n" + "Read file from " + old_index + " to " + str(int(old_index)+self.char_count) + "are\n" + data
+
+    
+
+    
 
 
 
