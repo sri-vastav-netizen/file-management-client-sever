@@ -14,7 +14,8 @@ def request(commandhandler, message):
     Parameters
     ----------
     commandhandler : Object
-        
+        Create a commandhandler object specific to a client and hand it over to 
+        request module.  
     message : str
         Message Received from the client and handled by the server.
     """
