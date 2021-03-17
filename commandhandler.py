@@ -23,6 +23,10 @@ class CommandHandler():
     """
 
     ROOT_DIR = "Root/"
+    REGISTERED_USERS_CSV_FILE = "AccessSession/registered_users.csv"
+    LOGGED_IN_USERS_CSV_FILE = "AccessSession/logged_in_users.csv"
+    CSV_HEADING = "username,password\n"
+
     def __init__(self):
 
         self.user_id = ""
@@ -34,27 +38,55 @@ class CommandHandler():
         self.char_count = 100
 
     def commands(self):
-        """Returns commands description that can be used by the user to interact with file server.
-        """
-
         commands = ["""register : To register as a new user ,
                     command:register <username> <password> \n""",
-                    """login : To login, 
+                    """login : To login , 
                     command:login <username> <password>""",
-                    """quit : To logout,
+                    """quit : To logout, 
                     command:quit\n""",
                     """change_folder : To change the current path, 
                     command:change_folder <name>\n""",
-                    """list : Lists all files in the current path,
+                    """list : Lists all files in the current path, 
                     command:list\n""",
-                    """read_file : To read content from the file,
+                    """read_file : To read content from the file, 
                     command:read_file <name>\n""",
-                    """write_file : To write content into the file,
+                    """write_file : To write content into the file, 
                     command:write_file <name> <content>\n""",
-                    """create_folder : To create new folder,
+                    """create_folder : To create new folder, 
                     command:create_folder <name>\n"""
                 ]
 
         return "".join(commands)
+
+    def access_user_info(self):
+        if not os.path.exists("AccessSession"):
+            os.mkdir("AccessSession")
+
+        if not os.path.isfile(CommandHandler.REGISTERED_USERS_CSV_FILE):
+            with open(CommandHandler.REGISTERED_USERS_CSV_FILE, "w") as writer:
+                writer.write(CommandHandler.CSV_HEADING)
+        if not os.path.isfile(CommandHandler.LOGGED_IN_USERS_CSV_FILE):
+            with open(CommandHandler.LOGGED_IN_USERS_CSV_FILE, "w") as writer:
+                writer.write(CommandHandler.CSV_HEADING)
+        self.logged_in_users = pandas.read_csv(CommandHandler.LOGGED_IN_USERS_CSV_FILE)
+        self.registered_users = pandas.read_csv(CommandHandler.REGISTERED_USERS_CSV_FILE)
+
+
+    def register(self, user_id, password):
+
+        self.access_user_info()
+        if user_id in self.registered_users['username'].tolist():
+            return "\nUsername not available"
+        if len(password) < 8:
+            return "\n Password length should be more than 8 characters."
+        with open(CommandHandler.REGISTERED_USERS_CSV_FILE, "a") as writer:
+            writer.write(user_id+","+password+"\n")
+        if not os.path.exists(self.current_dir):
+            os.mkdir(self.current_dir)
+        os.mkdir(os.path.join(self.current_dir, user_id))
+
+        self.current_dir = self.current_dir + user_id
+        self.user_id = user_id
+        return "\nSuccess! Registered " + self.user_id
 
     

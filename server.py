@@ -19,9 +19,14 @@ def request(commandhandler, message):
     message : str
         Message Received from the client and handled by the server.
     """
-    message = message.rstrip("\n").lstrip(" ").rstrip(" ")
-    if message.split(" ")[0] == "commands":
+    command = message.rstrip("\n").lstrip(" ").rstrip(" ").split(" ")[0]
+    if command == "commands":
         return commandhandler.commands()
+
+    if command == "register":
+        if len(message.split(" ")) == 3:
+            return commandhandler.register(message.split(" ")[1], message.split(" ")[2])
+        return "Enter correct command"
 
 async def handle_client(reader, writer):
     """

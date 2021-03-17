@@ -11,8 +11,7 @@ from commandhandler import CommandHandler
 
 
 class TestClient(unittest.TestCase):
-    """[summary]
-    """
+    
     def test_commands_output(self):
         """This test deals with testing whether correct description of 
         commands is returned by the server to client.
@@ -38,6 +37,16 @@ class TestClient(unittest.TestCase):
 
         test_user = CommandHandler()
         actual = test_user.commands()
+        self.assertEqual(expected, actual)
+
+    def test_registration(self):
+
+        """This test deals with testing whether register command is working or not!
+        """
+
+        test_user = CommandHandler()
+        expected = "\nSuccess! Registered test1"
+        actual = test_user.register("test1", "17bfdsbgl")
         self.assertEqual(expected, actual)
 
 
