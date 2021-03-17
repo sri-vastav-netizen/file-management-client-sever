@@ -17,7 +17,7 @@ class CommandHandler:
     Returns
     -------
     Object
-        CommandHandler Object  
+        CommandHandler Object
     """
 
     ROOT_DIR = "Root/"
@@ -37,8 +37,7 @@ class CommandHandler:
         self.read_index = {}
         self.char_count = 100
 
-    def commands(self):
-        
+    def commands(self):    
         commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
                     """login : To login,
@@ -51,9 +50,9 @@ class CommandHandler:
                     command:list\n""",
                     """read_file : To read content from the file,
                     command:read_file <name>\n""",
-                    """write_file : To write content into the file, 
+                    """write_file : To write content into the file,
                     command:write_file <name> <content>\n""",
-                    """create_folder : To create new folder, 
+                    """create_folder : To create new folder,
                     command:create_folder <name>\n"""
                 ]
 
@@ -83,7 +82,7 @@ class CommandHandler:
         Parameters
         ----------
         user_id : str
-            Username of the client  
+            Username of the client
         password : str
             Password set by the client
 
