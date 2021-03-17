@@ -41,19 +41,19 @@ class CommandHandler:
         
         commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
-                    """login : To login
+                    """login : To login, 
                     command:login <username> <password>""",
-                    """quit : To logout,
+                    """quit : To logout, 
                     command:quit\n""",
                     """change_folder : To change the current path, 
                     command:change_folder <name>\n""",
-                    """list : Lists all files in the current path,
+                    """list : Lists all files in the current path, 
                     command:list\n""",
-                    """read_file : To read content from the file,
+                    """read_file : To read content from the file, 
                     command:read_file <name>\n""",
                     """write_file : To write content into the file, 
                     command:write_file <name> <content>\n""",
-                    """create_folder : To create new folder,
+                    """create_folder : To create new folder, 
                     command:create_folder <name>\n"""
                 ]
 
