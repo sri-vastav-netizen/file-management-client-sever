@@ -17,17 +17,14 @@ class CommandHandler:
 
     Attributes
     ----------
-    self.user_id : str
+    self.user_id :
         Username of registered user
-    self.is_login : bool
+    self.is_login :
         Login Status of the user
-    self.registered_users : list
+    self.registered_users :
         Container which stores usernames of registered users
     self.logged_in_users : list
         Container which stores usernames of logged in users
-
-    
-
 
     Returns
     -------
@@ -68,6 +65,15 @@ class CommandHandler:
         self.char_count = 100
 
     def commands(self):    
+        """
+        Returns
+        -------
+        commands : str
+            Returns a description of commands that 
+            can be exercised by the user while using this 
+            system.
+        """
+
         commands = ["""register : To register as a new user,
                     command:register <username> <password> \n""",
                     """login : To login,
@@ -90,7 +96,7 @@ class CommandHandler:
 
     def access_user_info(self):
         """
-        TODO
+        Helper method
         """
         if not os.path.exists("AccessSession"):
             os.mkdir("AccessSession")
@@ -107,7 +113,8 @@ class CommandHandler:
 
     def register(self, user_id, password):
         """
-        TODO
+        Registers a new user. The password length specified by the 
+        user should be more than 8. 
 
         Parameters
         ----------
@@ -119,11 +126,7 @@ class CommandHandler:
         Returns
         -------
         str
-            On Success:
-                Success! Registered <username>
-            On Failure:
-                Password length should be more than 8 characters 
-                Username not available
+            Success! Registered <username>
         """
         self.access_user_info()
         if user_id in self.registered_users['username'].tolist():
@@ -140,7 +143,7 @@ class CommandHandler:
 
     def login(self, user_id, password):
         """
-        TODO
+        Allow the user to login to the system
 
         Parameters
         ----------
@@ -151,25 +154,9 @@ class CommandHandler:
 
         Returns
         -------
-        str
-            On Success:
-                Case 1: First Login
-                -------------------
-                Success <username> Logged into the system
-                Case 2: Logged from another system
-                ----------------------------------
-                You logged through another system
-                Case 3: Re-logged
-                -----------------
-                Already logged in 
-            On Failure:
-                Case 1: If not registered
-                --------------------------
-                You haven't registered! Please register--> 
-                command: register <username> <password>
-                Case 2: If Password is wrong
-                ----------------------------
-                Sorry, The password you entered is wrong. Please Try Again
+        str     
+            Success <username> Logged into the system
+            
         """
 
         self.access_user_info()
@@ -195,18 +182,12 @@ class CommandHandler:
 
     def quit(self):
         """
-        TODO
+        Quits the client program. 
 
         Returns
         -------
         str
-            On Success:
-                Case 1: Safe Logout
-                -------------------
-                Logged Out
-                Case 2: Forced Logout
-                ---------------------
-                Forced Logged Out through Keyboard Interruption (CTRL-C)   
+            Logged Out     
         """
         
         try:
@@ -226,7 +207,8 @@ class CommandHandler:
 
     def create_folder(self, folder):
         """
-        TODO
+        Creates a new folder as specified by the 
+        logged in user. If specified folder already exists throws an error.
 
         Parameters
         ----------
@@ -236,10 +218,7 @@ class CommandHandler:
         Returns
         -------
         str
-            On Success:
-                Successfully created folder <folder-name>
-            On Failure:
-                The folder already exists
+            Successfully created folder <folder-name>
         """
 
         if not self.is_login:
@@ -254,7 +233,8 @@ class CommandHandler:
 
     def change_folder(self, folder):
         """
-        TODO
+        Change the current path to the path specified by the logged in 
+        user. If the specified path does not exist, throws an error.
 
         Parameters
         ----------
@@ -264,17 +244,7 @@ class CommandHandler:
         Returns
         -------
         str
-            On Success:
-                Successfully moved to folder <current-folder>
-            On Failure:
-                Case 1: If the user attempts to move parent 
-                folder of "Root/<username>" folder
-                -------------------------------------------
-                Cannot Move Back from Root/<username> folder
-                Case 2: If the user attempts to move to 
-                non-existing folder
-                -------------------------------------------
-                No such folder exists
+            Successfully moved to folder <current-folder>
         """
 
         if not self.is_login:
@@ -296,7 +266,8 @@ class CommandHandler:
     
     def write_file(self, filename, data):
         """
-        TODO
+        Creates a new file and write content to the created file by the logged in user. 
+        If the file already exists the content will be appended to the already existing file.
 
         Parameters
         ----------
@@ -308,13 +279,7 @@ class CommandHandler:
         Returns
         -------
         str
-            On Success:
-              Case 1: On Creating new file and writing content
-              ------------------------------------------------
-              Created and Written data to file <filename> successfully
-              Case 2: Writing content to already existing file
-              ------------------------------------------------
-              Success Written data to file <filename> successfully
+            Created and Written data to file <filename> successfully
         """
 
         self.access_user_info()
@@ -339,7 +304,9 @@ class CommandHandler:
 
     def read_file(self, filename):
         """
-        TODO
+        Read the content from the file specified by the logged in user.
+        If the file path does not exist, it throws an error message 
+        stating No Such file <filename> exists
 
         Parameters
         ----------
@@ -349,34 +316,31 @@ class CommandHandler:
         Returns
         -------
         str
-            On Success:
-                Read file from <old_index> to <current_index> are <content>
-            On Failure:
-                If file does not exists:
-                ------------------------
-                Return No Such file <filename> exists!
+            Read file from <old_index> to <current_index> are <content>
         """
         self.access_user_info()
         if not self.is_login:
             return "\nLogin to Continue"
         try:
             t_path = os.path.join(self.current_dir, filename)
-        except FileExistsError:
-            "\nReturn No Such file " + filename + "exists!"
-        if t_path not in list(self.read_index.keys()):
-            self.read_index[t_path] = 0
-        with open(t_path, "r") as file:
-            content = file.read()
-        old_index = str(self.read_index[t_path]*self.char_count)
-        index = self.read_index[t_path]
-        data = content[index*self.char_count:(index+1)*self.char_count]
-        self.read_index[t_path] += 1
-        self.read_index[t_path] %= len(content) // self.char_count + 1
-        return "\n" + "Read file from " + old_index + " to " + str(int(old_index)+self.char_count) + "are\n" + data
-
+            if t_path not in list(self.read_index.keys()):
+                self.read_index[t_path] = 0
+            with open(t_path, "r") as file:
+                content = file.read()
+            old_index = str(self.read_index[t_path]*self.char_count)
+            index = self.read_index[t_path]
+            data = content[index*self.char_count:(index+1)*self.char_count]
+            self.read_index[t_path] += 1
+            self.read_index[t_path] %= len(content) // self.char_count + 1
+            return "\n" + "Reading file from " + old_index + " bytes to " + str(int(old_index)+self.char_count) + " bytes\n"+ data
+        except FileNotFoundError:
+            "\nNo Such file " + filename + "exists!"
+        
+        
     def list(self):
         """
-        TODO
+        Lists out all the files and
+        folders in the user's current file path.
 
         Returns
         -------
@@ -401,17 +365,3 @@ class CommandHandler:
             line = " | ".join([folder[0], folder[1], folder[2]]) + "\n"
             details += "-----------------------\n" + line
         return details
-
-    
-
-    
-
-
-
-
-    
-
-
-
-
-    

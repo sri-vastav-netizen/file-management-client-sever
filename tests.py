@@ -160,6 +160,32 @@ class TestClient(unittest.TestCase):
         self.assertEqual(expected, actual)
         test_user.quit()
 
+    def test_read_file(self):
+        """Tests if the user is attempting to read content from already 
+        existing file
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test10", "brsgvegveiotyq39ty")
+        test_user.login("test10", "brsgvegveiotyq39ty")
+        test_user.write_file("z.txt", "Hello World!n")
+        expected = "\nReading file from 0 bytes to 100 bytes\nHello World!n"
+        actual = test_user.read_file("z.txt")
+        self.assertEqual(expected, actual)
+        test_user.quit()
+
+    def test_read_non_existing_file(self):
+        """Tests if the user is attempting to read content from non-existent
+        file
+        """
+
+        test_user = CommandHandler()
+        test_user.register("test11", "hgrsbbgvngevlohbgvp0")
+        test_user.login("test11", "hgrsbbgvngevlohbgvp0")
+        filename = "abc.txt"
+        test_user.read_file(filename)
+        expected = "\nNo Such file " + filename + " exists!"
+        actual = test_user.read_file(filename)
 
 def cleanup():
     """Cleans the directories created during all
