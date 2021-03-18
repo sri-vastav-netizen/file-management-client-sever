@@ -11,8 +11,23 @@ import pandas
 
 class CommandHandler:
     """
+
     Handles all the commands received from the client.
     Acts as helper program to the server.
+
+    Attributes
+    ----------
+    self.user_id : str
+        Username of registered user
+    self.is_login : bool
+        Login Status of the user
+    self.registered_users : list
+        Container which stores usernames of registered users
+    self.logged_in_users : list
+        Container which stores usernames of logged in users
+
+    
+
 
     Returns
     -------
@@ -27,7 +42,22 @@ class CommandHandler:
 
     def __init__(self):
         """
-        TODO
+        Parameters
+        ----------
+        self.user_id : str
+            Username of registered user
+        self.is_login : bool
+            Login status of the user
+        self.registered_users : list
+            Container which stores usernames of registered users
+        self.logged_in_users : list
+            Container which stores usernames of logged in users
+        self.current_dir : str
+            Current Directory Path of the user, by default this is set
+            to Root/
+        self.char_count : int
+            Number of characters should be read each time read_file()
+            method is invoked.
         """
         self.user_id = ""
         self.is_login = None
